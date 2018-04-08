@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="utf-8"/>
+    <title>Semantic Web</title>
+    <style>
+      #logodnd {
+        background-color: white;
+        width: 45px;
+        height: 32px;
+        padding: 1px 0px;
+        margin-left: 5px;
+      }
+
+      header  {
+        top: 0;
+        left: 0;
+        background-color: black;
+        position: fixed;
+        width: 100%;
+        height: 35px;
+        border-bottom: 1px solid black;
+        padding: 5px 0px;
+        z-index: 10;
+        color: white;
+      }
+
+      header span{
+        margin-top: -5px;
+        font-size: 25px;
+        padding: 1px 0px;
+        margin-left: 5px;
+      }
+
+      header a{
+        float: left;
+        color: white;
+        display: inline-block;
+
+        margin: 9px 5px;
+        padding: 3px;
+      }
+
+      nav div{
+        float: right;
+      }
+
+      body {
+        background-color: #f1f1f1;
+      }
+
+      /* Clear floats after the columns */
+      .row:after {
+          content: "";
+          display: table;
+          clear: both;
+
+      }
+
+      .row{
+          margin: 50px 0px 20px 0px;
+
+          height: 100%;
+          left: 0;
+      }
+
+      /* Create three unequal columns that floats next to each other */
+      .column {
+          float: left;
+          width: 100%;
+          padding: 15px;
+          height: auto;
+      }
+
+      /* Left and right column */
+      .column.side {
+          width: 10%;
+      }
+
+      /* Middle column */
+      .column.middle {
+          width: 71%;
+      }
+
+      .contentTitle {
+        text-align: center;
+      }
+
+      .boxContainer {
+        width: 100%;
+        height: auto;
+      }
+
+      .box {
+        text-align: left;
+        display: inline-block;
+        width: 200px;
+        height: 150px;
+        border: 1px solid black;
+        padding: 15px;
+        margin: 5px;
+      }
+
+      footer {
+        padding: 30px 0px;
+        left: 0;
+        background-color: black;
+        color: white;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <img id="logodnd" src="https://cdn3.iconfinder.com/data/icons/user-interface-icons-bundle-18/32/910-512.png" alt="Logo Web" />
+        <span>Toko Kecil - kecilan</span>
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Menu</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="row">
+      <div class="column side"></div>
+
+      <div class="column middle">
+        <div class="contentTitle">
+          <h3>Data Barang</h3>
+          <h2>Masukan Data Barang</h2>
+        </div>
+        <div class="boxContainer"></div><br>
+        <label for="namaBarang">Nama Barang :</label>
+        <input type="text" name="namaBarang" id="namaBarang" /><br><br>
+        <label for="hargaBarang">Harga Barang :</label>
+        <input type="text" name="hargaBarang" id="hargaBarang" /><br><br>
+        <label for="stockBarang">Stock Barang :</label>
+        <input type="number" name="stockBarang" id="stockBarang" /><br><br>
+        <button onclick="addBox()">Tambah Box</button>
+        <button onclick="removeLastBox()">Remove Last Box</button>
+        <br><br>
+      </div>
+
+      <div class="column side"></div>
+
+    </div>
+
+    <script>
+      let index = 0;
+
+
+      function addBox(){
+        //take text value from input type
+        let txtnamaBarang = document.querySelector('#namaBarang')
+        let txthargaBarang = document.querySelector('#hargaBarang')
+        let txtstockBarang = document.querySelector('#stockBarang')
+
+        //create a new div inside boxContainer
+        let boxContainer = document.querySelector('.boxContainer')
+        let newBox = document.createElement('div')
+        newBox.setAttribute('class', 'box')
+        newBox.setAttribute('id', index)
+
+        //create h4 tag for namaBarang inside div box
+        let namaBarang = document.createElement('h4')
+        namaBarang.innerHTML = txtnamaBarang.value
+        //create span tag for hargaStockBarang inside div box
+        let hargaStockBarang = document.createElement('span')
+        hargaStockBarang.innerHTML = `Rp ${txthargaBarang.value} <br> Stock ${txtstockBarang.value}`
+        newBox.appendChild(namaBarang)
+        newBox.appendChild(hargaStockBarang)
+
+        boxContainer.appendChild(newBox)
+
+        //clear textbox value after create
+        document.querySelector('#namaBarang').value = ''
+        document.querySelector('#hargaBarang').value = ''
+        document.querySelector('#stockBarang').value = ''
+        index++;
+      }
+
+      function removeLastBox(){
+        let boxContainer = document.querySelector('.boxContainer')
+        let boxChild = boxContainer.childNodes
+        // console.log(boxContainer.childNodes);
+        // console.log(boxChild[boxChild.length-1]);
+        boxContainer.removeChild(boxChild[boxChild.length-1])
+        index--;
+      }
+    </script>
+  </body>
+  <!--<footer>
+    Ini Footer
+  </footer>-->
+</html>
