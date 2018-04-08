@@ -140,7 +140,9 @@
         <label for="stockBarang">Stock Barang :</label>
         <input type="number" name="stockBarang" id="stockBarang" /><br><br>
         <button onclick="addBox()">Tambah Box</button>
-        <button onclick="removeLastBox()">Remove Last Box</button>
+        <button onclick="removeLastBox()">Remove Last Box</button><br><br>
+        <input type="text" id="idBox" style="width: 15px" disabled/>
+        <button onclick="saveEdit()">Simpan Edit Barang</button>
         <br><br>
       </div>
 
@@ -149,8 +151,7 @@
     </div>
 
     <script>
-      let index = 0;
-
+      let index = 0
 
       function addBox(){
         //take text value from input type
@@ -162,23 +163,30 @@
         let boxContainer = document.querySelector('.boxContainer')
         let newBox = document.createElement('div')
         newBox.setAttribute('class', 'box')
-        newBox.setAttribute('id', index)
+        newBox.setAttribute('id', `box${index}`)
 
         //create h4 tag for namaBarang inside div box
         let namaBarang = document.createElement('h4')
         namaBarang.innerHTML = txtnamaBarang.value
+        namaBarang.setAttribute('id', `nama${index}`)
         //create span tag for hargaStockBarang inside div box
         let hargaStockBarang = document.createElement('span')
-        hargaStockBarang.innerHTML = `Rp ${txthargaBarang.value} <br> Stock ${txtstockBarang.value}`
+        hargaStockBarang.setAttribute('id', `hargaStock${index}`)
+        hargaStockBarang.innerHTML = `Rp ${txthargaBarang.value} <br> Stock ${txtstockBarang.value} <br><br>`
+
+        //create button for edit value
+        let buttonEdit = document.createElement('button')
+        buttonEdit.setAttribute('onclick', `editBox(${index})`)
+        buttonEdit.innerHTML = 'Edit Barang'
+
         newBox.appendChild(namaBarang)
         newBox.appendChild(hargaStockBarang)
+        newBox.appendChild(buttonEdit)
 
         boxContainer.appendChild(newBox)
 
-        //clear textbox value after create
-        document.querySelector('#namaBarang').value = ''
-        document.querySelector('#hargaBarang').value = ''
-        document.querySelector('#stockBarang').value = ''
+        //clear all textbox
+        clearText()
         index++;
       }
 
@@ -189,6 +197,51 @@
         // console.log(boxChild[boxChild.length-1]);
         boxContainer.removeChild(boxChild[boxChild.length-1])
         index--;
+        //clear all textbox
+        clearText()
+      }
+
+      function editBox(id){
+        let boxBarang = document.querySelector(`#box${id}`)
+        let txtnamaBarang = document.querySelector(`#nama${id}`).innerHTML
+        let hargaStockBarang = document.querySelector(`#hargaStock${id}`).innerHTML
+        // console.log(id);
+        // console.log(boxBarang);
+        // console.log(txtnamaBarang);
+        // console.log(hargaStockBarang);
+        let hargaStockArr = hargaStockBarang.split(' ')
+        let harga = hargaStockArr[1]
+        let stock = hargaStockArr[4]
+
+        document.querySelector('#namaBarang').value = txtnamaBarang
+        document.querySelector('#hargaBarang').value = harga
+        document.querySelector('#stockBarang').value = stock
+        document.querySelector('#idBox').value = id
+      }
+
+      function saveEdit(){
+        let id = document.querySelector('#idBox').value
+        let txtnamaBarang = document.querySelector('#namaBarang').value
+        let txthargaBarang = document.querySelector('#hargaBarang').value
+        let txtstockBarang = document.querySelector('#stockBarang').value
+
+        console.log(id)
+        console.log(`#nama${id}`)
+        console.log(`#hargaStock${id}`)
+        //edit box value
+        document.querySelector(`#nama${id}`).innerHTML = txtnamaBarang
+        document.querySelector(`#hargaStock${id}`).innerHTML = `Rp ${txthargaBarang} <br> Stock ${txtstockBarang} <br><br>`
+
+        //clear all textbox
+        clearText()
+      }
+
+      function clearText(){
+        //clear all textbox
+        document.querySelector('#namaBarang').value = ''
+        document.querySelector('#hargaBarang').value = ''
+        document.querySelector('#stockBarang').value = ''
+        document.querySelector('#idBox').value = ''
       }
     </script>
   </body>
